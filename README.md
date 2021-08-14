@@ -23,6 +23,13 @@ Now launch the setup scritp that will initalize the database.
 $ python setup.py
 ```
 
+# Run
+
+Simply use the flask run command
+```
+$ flask run
+```
+
 # TODO
 
 - scrivere documento di progetto
