@@ -1,3 +1,23 @@
+# Setup
+
+Install postgress and do the initial configuration for your system.
+Remember to also start the database.
+
+Create a new user with name `pforms_role` and password `12345`.
+```
+$ createuser --interactive
+```
+
+Create a new database called `pforms`.
+```
+$ createdb pforms
+```
+
+Now launch the setup scritp that will initalize the database.
+```
+$ python setup.py
+```
+
 # TODO
 
 - scrivere documento di progetto
