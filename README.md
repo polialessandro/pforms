@@ -13,6 +13,11 @@ Create a new database called `pforms`.
 $ createdb pforms
 ```
 
+Install falsk-sqlalchemy
+```
+$ pip install flask-sqlalchemy
+```
+
 Now launch the setup scritp that will initalize the database.
 ```
 $ python setup.py
