@@ -13,4 +13,7 @@ def create_app():
     from pforms.site.routes import site
     app.register_blueprint(site)
 
+    from pforms.api.routes import api
+    app.register_blueprint(api)
+
     return app

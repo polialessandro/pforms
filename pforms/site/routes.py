@@ -1,17 +1,19 @@
-from flask import Blueprint, render_template, redirect, url_for, request
-from pforms import db
-from pforms.models import User
+from flask import Blueprint, render_template, redirect, url_for, request, jsonify
+import requests
 
 site = Blueprint('site', __name__)
+host = "http://localhost:5000"
 
 @site.route('/')
 def index():
     return render_template("index.html")
 
-@site.route('/users/<name>')
-def show_profile(name):
-    isuser = User.query.filter_by(username=name).first()
-    if isuser:
+@site.route('/users/<id>')
+def show_profile(id):
+    res = requests.get(host + url_for('api.get_user', id=id))
+
+    if res.ok:
+        name = res.json()['username']
         return render_template('profile.html', user=name)
     else:
         return render_template('profile.html')
@@ -22,8 +24,8 @@ def login():
 
 @site.route('/login', methods=['POST'])
 def login_post():
-    user = request.form.get('user')
-    return redirect(url_for('site.show_profile', name=user))
+    id = request.form.get('user')
+    return redirect(url_for('site.show_profile', id=id))
 
 @site.route('/signup')
 def signup():
@@ -33,7 +35,12 @@ def signup():
 def signup_post():
     name = request.form.get('user')
     mail = request.form.get('mail')
-    user = User(username=name, email=mail)
-    db.session.add(user)
-    db.session.commit()
-    return redirect(url_for('site.show_profile', name=name))
+    user = {"username": name, "email": mail}
+
+    res = requests.post(host + url_for('api.add_user'), json=user)
+
+    if res.ok:
+        id=res.json()['id']
+        return redirect(url_for('site.show_profile', id=id))
+    else:
+        return (res.text, res.status_code, res.headers.items())
