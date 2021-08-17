@@ -10,10 +10,10 @@ def get_user(id):
     return jsonify(user)
 
 
-@api.route('/add_user', methods=['POST'])
+@api.route('/user', methods=['POST'])
 def add_user():
     name = request.json.get('username')
-    mail = request.json['email']
+    mail = request.json.get('email')
 
     user = User(username=name, email=mail)
     db.session.add(user)
